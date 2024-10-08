@@ -13,8 +13,9 @@ const upload = multer({
 });
 
 export const validateCandidateFiles = (req, res, next) => {
-  upload.array("files")(req, res, (err) => {
+  upload.array("files",20)(req, res, (err) => {
     if (err) {
+      console.log(err);
       return res.status(400).json({
         success: false,
         message: err.message || "Something went wrong",

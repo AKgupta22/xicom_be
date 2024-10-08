@@ -18,18 +18,17 @@ export const addNewCandidate = async (req, res) => {
   try {
     let { isPermanentSameAsResidence, uploadsData, ...candidateData } =
       req.body;
-    if (candidateData.residence_address) {
-      candidateData.residence_address = JSON.parse(
-        candidateData.residence_address
-      );
-    }
+    candidateData.residence_address = Object.assign(
+      {},
+      candidateData.residence_address
+    );
     if (isPermanentSameAsResidence === "true") {
       candidateData.permanent_address = candidateData.residence_address;
-    } else if (candidateData.permanent_address) {
-      candidateData.permanent_address = JSON.parse(
+    } else if (candidateData.permanent_address)
+      candidateData.permanent_address = Object.assign(
+        {},
         candidateData.permanent_address
       );
-    }
     const { error } = validateNewCandidate(candidateData);
     if (error) {
       await deleteCloudinaryFiles(uploadsData);
